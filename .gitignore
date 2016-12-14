@@ -1,0 +1,5 @@
+*.project
+*.pydevproject
+
+/melwin/__pycache__/
+/melwin/learningpython/__pycache__/
