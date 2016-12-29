@@ -15,10 +15,12 @@ print(my_int," ",my_float," ",my_float_2," ",boolean)
 
 
 
-## Strings
+## Strings are immutable
 string_1 = 'it is string_1'
 string_2 = "it's string_2"
-print(string_1+" & "+string_2)
+print(string_1[:]+" & "+string_2)
+print(string_1[:-3])    # exclude the last three
+print(string_1[-3:])    # the last three
 
 # %s %d %f %.<d>f %x
 print("int:%d\tstring:%s" %(my_int, string_1))

@@ -3,6 +3,9 @@ var = 1
 ## if...else
 if var == 0 :
 	print("0")
+	doesNotExists()
+	# python only checks a line
+	# when it runs that line
 else:
 	print("1")
 	
