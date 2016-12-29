@@ -2,6 +2,7 @@
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
+from audioop import reverse
 
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
@@ -44,7 +45,31 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def get_word_count(filename):
+    f = open(filename, "r")
+    word_count={}
+    for line in f:
+        words = line.split()
+        for word in words:
+            word = word.lower()
+            if word in word_count.keys():
+                word_count[word] = word_count[word]+1
+            else:
+                word_count[word] = 1
+    f.close()
+    return word_count
 
+def print_words(filename):
+    for item in get_word_count(filename).items():
+        print item[0], item[1]
+    
+def print_top(filename):
+    sorted_word_count = sorted(get_word_count(filename).items(),key=sortByCount,reverse=True)
+    for item in sorted_word_count[:20]:
+        print item[0],item[1] 
+
+def sortByCount(tuple):
+    return tuple[1]
 ###
 
 # This basic command line argument parsing code is provided and
