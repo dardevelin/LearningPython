@@ -40,10 +40,30 @@ def extract_names(filename):
   followed by the name-rank strings in alphabetical order.
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
-  # +++your code here+++
-  return
+  ret = []
+  regex_year = "Popularity in (\d+)"
+  regex_name_rank = "<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>"
+  f = open(filename,"r")
+  html_text = f.read()
+  
+  match = re.search(regex_year, html_text)
+  ret.append(match.group(1))
+  
+  matches = re.findall(regex_name_rank, html_text)
+  names_ranks = []
+  for match in matches:
+      names_ranks.append((match[1],match[0]))
+      names_ranks.append((match[2],match[0]))
+   
+  names_ranks = sorted(names_ranks, key=getName)
+  for name_rank in names_ranks:
+      ret.append(name_rank[0]+" "+name_rank[1])
+  
+  f.close()
+  return ret
 
-
+def getName(tuple):
+    return tuple[0]
 def main():
   # This command-line parsing code is provided.
   # Make a list of command line arguments, omitting the [0] element
@@ -60,9 +80,20 @@ def main():
     summary = True
     del args[0]
 
-  # +++your code here+++
   # For each filename, get the names, then either print the text output
   # or write it to a summary file
+  for filename in args:
+    names = extract_names(filename)
+    
+    text = '\n'.join(names)
+
+    if summary:
+      outf = open(filename + '.summary', 'w')
+      outf.write(text + '\n')
+      outf.close()
+    else:
+      print text
+      
   
 if __name__ == '__main__':
   main()
