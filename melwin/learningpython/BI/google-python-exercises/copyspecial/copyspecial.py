@@ -17,7 +17,28 @@ import commands
 
 # +++your code here+++
 # Write functions and modify main() to call them
+def get_special_paths(dir):
+  result = []
+  files = os.listdir(dir)
+  for filename in files:
+    match = re.search(r'__(\w+)__', filename)
+    if match:
+      result.append(os.path.abspath(os.path.join(dir, filename)))
+  return result
 
+def copy_to(paths, dest_dir):
+  if not os.path.exists(dest_dir):
+    os.mkdir(dest_dir)
+  for path in paths:
+    fname = os.path.basename(path)
+    shutil.copy(path, os.path.join(dest_dir, fname))
+
+def zip_to(paths, zipfile):
+  cmd = 'zip -j ' + zipfile + ' ' + ' '.join(paths)
+  (status, output) = commands.getstatusoutput(cmd)
+  if status:
+    sys.stderr.write(output)
+    sys.exit(1)
 
 
 def main():
@@ -48,8 +69,16 @@ def main():
     print "error: must specify one or more dirs"
     sys.exit(1)
 
-  # +++your code here+++
-  # Call your functions
-  
+  paths = []
+  for dirname in args:
+    paths.extend(get_special_paths(dirname))
+
+  if todir:
+    copy_to(paths, todir)
+  elif tozip:
+    zip_to(paths, tozip)
+  else:
+    print '\n'.join(paths)
+    
 if __name__ == "__main__":
   main()
