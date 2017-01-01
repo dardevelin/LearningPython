@@ -34,3 +34,15 @@ def func_var(arg1, *argvar):
         print(var)
         
 func_var(1, 1,2,3)
+
+## Keyword argument 
+def func_keyword(arg1, *var_args, **kwargs):
+    print(arg1)
+    for var_arg in var_args:
+        print("var_arg="+str(var_arg))
+        
+    for k in kwargs.keys():
+        print("kwargs value="+str(kwargs[k]))
+
+func_keyword(1,1,name='melwin',age=25)
+    
