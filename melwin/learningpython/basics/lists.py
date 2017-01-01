@@ -33,3 +33,10 @@ x = l       # doesnot copy, points to the same list
 x = l[:]    # this is to copy
 l[0]=0
 print("l:",l,"\tx:",x)
+
+#list-comprehension
+lengths = [len(string) for string in m]
+print(lengths)
+
+square = [num*num for num in lengths if num > 3]
+print(square)
