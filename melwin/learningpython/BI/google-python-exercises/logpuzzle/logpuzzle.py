@@ -20,24 +20,43 @@ Here's what a puzzle url looks like:
 
 
 def read_urls(filename):
-  """Returns a list of the puzzle urls from the given log file,
-  extracting the hostname from the filename itself.
-  Screens out duplicate urls and returns the urls sorted into
-  increasing order."""
-  # +++your code here+++
-  
+  host = filename[ filename.index('_') + 1 : ]
+  regex_puzzle = "GET (\S+/puzzle/\S+) "
+  f = open(filename,"r")
+  html_text = f.read()
+  img_urls = {}
+  log_lines = re.findall(regex_puzzle, html_text)
+  for log_line in log_lines:
+      url = "http://"+host+log_line
+      print url
+      img_urls[url] = True
+  return sorted(img_urls.keys(), key=sort_url)
+
+
+def sort_url(url):
+  match = re.search('(\w+)-(\w+)\.\w+', url)
+  return match.group(2)
+
 
 def download_images(img_urls, dest_dir):
-  """Given the urls already in the correct order, downloads
-  each image into the given directory.
-  Gives the images local filenames img0, img1, and so on.
-  Creates an index.html in the directory
-  with an img tag to show each local image file.
-  Creates the directory if necessary.
-  """
-  # +++your code here+++
-  
+  if not os.path.exists(dest_dir):
+    os.makedirs(dest_dir)
 
+  dest_index_html = file(os.path.join(dest_dir, 'index.html'), 'w')
+  dest_index_html.write('<html><body>\n')
+
+  i = 0
+  for img_url in img_urls:
+    img_file_name = 'img%d' % i
+    print 'Retrieving...', img_url
+    urllib.urlretrieve(img_url, os.path.join(dest_dir, img_file_name))
+    dest_index_html.write('<img src="%s">' % (img_file_name,))
+    i += 1
+
+  dest_index_html.write('\n</body></html>\n')
+  dest_index_html.close()
+  
+  
 def main():
   args = sys.argv[1:]
 
