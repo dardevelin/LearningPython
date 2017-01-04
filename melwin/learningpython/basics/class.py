@@ -2,6 +2,7 @@ from Student import Student
 
 s = Student("melwin",123,25)
 s.display()
+s.course='python'   #instance variable
 
 # Python's garbage collector runs during program execution 
 # and is triggered when an object's reference count reaches 

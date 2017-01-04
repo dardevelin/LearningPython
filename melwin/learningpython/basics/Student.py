@@ -3,7 +3,7 @@ class Human():
         self.__age = age
 
 class Student(Human):
-    no_of_students = 0
+    no_of_students = 0  #Class variable
     def __init__(self, name, id, age):
         # needs to be explicitly called
         Human.__init__(self, age)
