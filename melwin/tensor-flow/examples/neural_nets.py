@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# source : https://github.com/nlintz/TensorFlow-Tutorials/blob/master/03_net.py
 
 import tensorflow as tf
 import numpy as np
